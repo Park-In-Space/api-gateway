@@ -1,34 +1,27 @@
 var { buildSchema } = require('graphql');
-var reviews = require('./routers/reviewServices');
+var users = require('./routers/authenticationServices');
 
 exports.schema = buildSchema(`
 
-  type Review {
-    idreview: Int!
-    parking_id: Int!
-    user_id: Int!
-    review_date: String!
-    review_calification: Int!
-    review_comment: String    
+  type User {
+    email: String!
+    Password: String!
+    token: String!
+    user_id: String!
+      
   }
  
-  input ReviewInput {
-    idreview: Int
-    parking_id: Int
-    user_id: Int
-    review_date: String
-    review_calification: Int
-    review_comment: String    
+  type signUpOutput {
+    InsertedID: String    
   }
 
   type Query {
-    review(idreview: Int!): Review
+    hello: String
   }
 
   type Mutation {
-      createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
-      deleteReview(idreview: Int!): Int
-      updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
+      signUp(email: String!, password: String!): signUpOutput
+      login(email: String!, password: String!): User
   }
 
   
@@ -36,11 +29,9 @@ exports.schema = buildSchema(`
  
 
 exports.root = {
-  review: reviews.getById,
-  createReview: reviews.postReview,
-  deleteReview: reviews.deleteReview,
-  updateReview: reviews.updateReview
+
+  signUp: users.signUp,
+  login: users.login,
+
 };
 
-//createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):ReviewInput
-  
