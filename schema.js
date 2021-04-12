@@ -42,12 +42,12 @@ exports.schema = buildSchema(`
   }
 
   type OpenHours {
-      opening: String!
+      opening: String
       closing: String
   }
 
   input OpenHoursInput {
-      opening: String!
+      opening: String
       closing: String
   }
 
@@ -61,8 +61,8 @@ exports.schema = buildSchema(`
       createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
       deleteReview(idreview: Int!): Int
       updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
-      createNewParking(parking:ParkingInput): Parking
-      updateParking(id:Int!,parking:ParkingInput): Int
+      createNewParking(parking:ParkingInput!): Parking
+      updateParking(id:Int!,parking:ParkingInput!): Int
       deleteParking(id:Int!): Int
   }
 

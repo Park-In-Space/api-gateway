@@ -22,10 +22,8 @@ const axios = require('axios')
 // }
 
 async function makeCreateNewParking(parking) {
-    let res = await axios.post(`${url}parking`, parking);    
+    let res = await axios.post(`${url}parking`, parking.parking);    
     let data = res.data;
-    console.log(parking);
-    console.log(data);
     return data;    
 }
 
@@ -46,7 +44,8 @@ async function makeDeleteParking(id){
     return res.status;
 }
 
-async function makeUpdateParking(id,data){
+async function makeUpdateParking(id,parking){
+    let data = parking.parking
     delete data.id;
     let res = await axios.put(`${url}parking/${id.id}`,data)
     return res.data.message
@@ -68,7 +67,7 @@ exports.deleteParking =(id)=>{
     return makeDeleteParking(id)
 }
 
-exports.updateParking =(id,data)=>{
-    return makeUpdateParking(id,data)
+exports.updateParking =(id,parking)=>{
+    return makeUpdateParking(id,parking)
 }
 
