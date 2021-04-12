@@ -1,35 +1,14 @@
 var express = require('express');
+var { graphqlHTTP } = require('express-graphql');
+const schema = require('./schema');
+ 
+
+ 
 var app = express();
-var router = require('./routers/router')
-var bodyParser = require('body-parser');
-const cors = require('cors')
-const graphqlHTTP = require('express-graphql')
-const gql = require('graphql-tag')
-const { buildASTSchema } = require('graphql')
-
-
-app.use(cors())
-
-const schema = buildASTSchema(gql`
-  type Query {
-    hello: String
-  }
-`)
-
-const rootValue = {
-  hello: () => 'Hello, world'
-}
-
-app.use('/graphql', graphqlHTTP({ schema, rootValue }))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.get('/', (req, res) => {
-    res.send("Simple API Gateway")
-})
-
-app.use(router)
-
-const port = process.env.PORT || 3030
-app.listen(port)
-console.log(`Running a GraphQL API server at localhost:${port}/graphql`)
+app.use('/graphql', graphqlHTTP({
+  schema: schema.schema,
+  rootValue: schema.root,
+  graphiql: true,
+}));
+app.listen(4000);
+console.log('Running a GraphQL API server at http://localhost:4000/graphql');
