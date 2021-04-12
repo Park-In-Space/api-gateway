@@ -39,8 +39,11 @@ async function makeDeleteReview(id){
     return res.status;
 }
 
-async function makeUpdateReview(id,data){
-    let res = await axios.update()
+async function makeUpdateReview(data){
+    let id = data.idreview;
+    delete data.idreview;
+    let res = await axios.put(`${url}${id}`,data)
+    return res.data.message
 }
 
 exports.postReview = (review) =>{

@@ -13,11 +13,11 @@ exports.schema = buildSchema(`
   }
  
   input ReviewInput {
-    idreview: Int!
-    parking_id: Int!
-    user_id: Int!
-    review_date: String!
-    review_calification: Int!
+    idreview: Int
+    parking_id: Int
+    user_id: Int
+    review_date: String
+    review_calification: Int
     review_comment: String    
   }
 
@@ -28,6 +28,7 @@ exports.schema = buildSchema(`
   type Mutation {
       createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
       deleteReview(idreview: Int!): Int
+      updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
   }
 
   
@@ -37,7 +38,8 @@ exports.schema = buildSchema(`
 exports.root = {
   review: reviews.getById,
   createReview: reviews.postReview,
-  deleteReview: reviews.deleteReview
+  deleteReview: reviews.deleteReview,
+  updateReview: reviews.updateReview
 };
 
 //createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):ReviewInput
