@@ -3,8 +3,14 @@ const { getParkingById, getParkings } = require('./routers/parkingManagerService
 var reviews = require('./routers/reviewServices');
 var parkingManager = require('./routers/parkingManagerService');
 var recommendationManager = require('./routers/recommendationService')
+var locations = require('./routers/locationService');
 
 exports.schema = buildSchema(`
+
+  type Location{
+    id : Int
+    latitude: Float!
+    longitude: Float!
 
   type User {
     email: String!
@@ -16,6 +22,7 @@ exports.schema = buildSchema(`
 
   type signUpOutput {
     InsertedID: String    
+
   }
 
   type Review {
@@ -95,6 +102,7 @@ exports.schema = buildSchema(`
   }
 
   type Query {
+    location(id: Int!): Location
     review(idreview: Int!): Review
     getParkings: [Parking]!
     getParkingById(id: Int!): Parking
@@ -107,8 +115,14 @@ exports.schema = buildSchema(`
   }
 
   type Mutation {
+
+      createLocation( latitude: Float!,longitude: Float!): Location
+      deleteLocation( id: Int!): Int
+      updateLocation( id: Int! ,latitude: Float!,longitude: Float!): Location
+
       signUp(email: String!, password: String!, ): signUpOutput
       login(email: String!, password: String!): User
+
       createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
       deleteReview(idreview: Int!): Int
       updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
@@ -131,9 +145,18 @@ exports.schema = buildSchema(`
  
 
 exports.root = {
+
+  //locations
+  location: locations.getById,
+  createLocation: locations.postLocation,
+  deleteLocation: locations.deleteLocation,
+  updateLocation: locations.updateLocation,
+  //reviews
+
   //Authentication Service
   signUp: users.signUp,
   login: users.login,
+
   review: reviews.getById,
   createReview: reviews.postReview,
   deleteReview: reviews.deleteReview,
