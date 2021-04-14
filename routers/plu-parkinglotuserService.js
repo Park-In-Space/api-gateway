@@ -30,8 +30,8 @@ async function makeDeleteParkinglotuser(id){
 }
 
 async function makeUpdateParkinglotuser(data){
-    console.log(JSON.stringify(data))
-    console.log(data.id)
+    //console.log(JSON.stringify(data))
+    //console.log(data.id)
     let res = await axios.put(`${url}${data.id}`,data.parkinglotuser)
     return res.data
 }

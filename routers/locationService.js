@@ -5,7 +5,7 @@ const url = `http://54.85.49.75:3001/locations`
 const axios = require('axios')
 
 async function makePostLocation(location) {
-  console.log(location)
+  //console.log(location)
   let res = await axios.post(`${url}.json`, location);  
   let data = res.data;
   //console.log(data)
@@ -26,8 +26,8 @@ async function makeDeleteLocation(id){
 async function makeUpdateLocation(data){
   let StoredID = data.id
   delete data.id
-  console.log(StoredID)
-  console.log(data)
+  //console.log(StoredID)
+  //console.log(data)
   let res = await axios.put(`${url}/${StoredID}.json`,data)
   return res.data
 }

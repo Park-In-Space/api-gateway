@@ -4,6 +4,7 @@ var reviews = require('./routers/reviewServices');
 var parkingManager = require('./routers/parkingManagerService');
 var recommendationManager = require('./routers/recommendationService')
 var locations = require('./routers/locationService');
+var usersAuth = require('./routers/authenticationServices');
 
 exports.schema = buildSchema(`
 
@@ -11,13 +12,14 @@ exports.schema = buildSchema(`
     id : Int
     latitude: Float!
     longitude: Float!
+  
+  }
 
   type User {
     email: String!
     Password: String!
     token: String!
     user_id: String!
-      
   }
 
   type signUpOutput {
@@ -151,12 +153,12 @@ exports.root = {
   createLocation: locations.postLocation,
   deleteLocation: locations.deleteLocation,
   updateLocation: locations.updateLocation,
-  //reviews
-
+  
   //Authentication Service
-  signUp: users.signUp,
-  login: users.login,
+  signUp: usersAuth.signUp,
+  login: usersAuth.login,
 
+  //reviews
   review: reviews.getById,
   createReview: reviews.postReview,
   deleteReview: reviews.deleteReview,

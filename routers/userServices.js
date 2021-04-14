@@ -9,7 +9,7 @@ const axios = require('axios')
 async function makePostCreateUser(user) {
     let res = await axios.post(`${urlcreate}`, user.user);    
     let data = res.data;
-    console.log(data)
+    //console.log(data)
     return data;    
 }
 
@@ -21,7 +21,7 @@ async function makeGetUserById(id){
 
 async function makeDeleteUser(id){
     let res = await axios.delete(`${url}/${id.userId}`);
-    console.log(res.data)
+    //console.log(res.data)
     return res.data;
 }
 
@@ -29,14 +29,14 @@ async function makeUpdateUser(data){
     let id = data.user.userId;
     delete data.user.userId;
     let res = await axios.put(`${url}/${id}`,data.user)
-    console.log(res.data)
+    //console.log(res.data)
     return res.data
 }
 
 async function makeGetAllUsers(){
     let res = await axios.get(`${url}`)
     let data = res.data
-    console.log(data)
+    //console.log(data)
     return data
 }
 
