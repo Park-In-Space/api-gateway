@@ -4,23 +4,6 @@ const { resolve } = require('path');
 const url = `http://18.206.127.10:8080/`
 const axios = require('axios')
 
-// exports.getById = (id) =>{
-//     return new Promise((resolve, reject)=>{
-//         http.get(`${url}${id.idreview}`,(res)=>{
-//             let data = ''
-//             res.on('data', (chunk) => {
-//                 data += chunk;
-//               });
-            
-//               res.on('close', () => {
-//                 console.log(data)
-//                 resolve(JSON.parse(data))
-//               });
-            
-//         })
-//     }) 
-// }
-
 async function makeCreateNewParking(parking) {
     let res = await axios.post(`${url}parking`, parking.parking);    
     let data = res.data;
@@ -30,6 +13,7 @@ async function makeCreateNewParking(parking) {
 async function makeGetParkingById(id){
     let res = await axios.get(`${url}parking/${id.id}`);
     let data = res.data
+    console.log(data)
     return data
 }
 

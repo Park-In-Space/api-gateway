@@ -3,25 +3,15 @@ const http  = require('http');
 const { resolve } = require('path');
 const url = `http://3.135.244.105:3002/api/reviews/`
 const axios = require('axios')
-
-// exports.getById = (id) =>{
-//     return new Promise((resolve, reject)=>{
-//         http.get(`${url}${id.idreview}`,(res)=>{
-//             let data = ''
-//             res.on('data', (chunk) => {
-//                 data += chunk;
-//               });
-            
-//               res.on('close', () => {
-//                 console.log(data)
-//                 resolve(JSON.parse(data))
-//               });
-            
-//         })
-//     }) 
-// }
+var users = require('./userServices');
+var parking = require('./parkingManagerService');
 
 async function makePostReview(review) {
+    var x = await users.getById({userId:review.user_id.toString()});
+    var y = await parking.getParkingById({id:review.parking_id});
+    if(x===null||y===null){
+        return null;
+    }
     let res = await axios.post(url, review);    
     let data = res.data;
     //console.log(data)
@@ -40,6 +30,12 @@ async function makeDeleteReview(id){
 }
 
 async function makeUpdateReview(data){
+    var x = await users.getById({userId:review.user_id.toString()});
+    var y = await parking.getParkingById({id:review.parking_id});
+    if(x===null||y===null){
+        return null;
+    }
+
     let id = data.idreview;
     delete data.idreview;
     let res = await axios.put(`${url}${id}`,data)
