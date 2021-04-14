@@ -1,8 +1,8 @@
 var { buildSchema } = require('graphql');
-const { getParkingById, getParkings } = require('./services/parkingManagerService');
-var reviews = require('./services/reviewServices');
-var parkingManager = require('./services/parkingManagerService');
-var recommendationManager = require('./services/recommendationService')
+const { getParkingById, getParkings } = require('./routers/parkingManagerService');
+var reviews = require('./routers/reviewServices');
+var parkingManager = require('./routers/parkingManagerService');
+var recommendationManager = require('./routers/recommendationService')
 
 exports.schema = buildSchema(`
 
