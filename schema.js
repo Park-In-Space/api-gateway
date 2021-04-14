@@ -183,27 +183,27 @@ exports.schema = buildSchema(`
     par_updateParking(id:Int!,parking:ParkingInput!): Int
     par_deleteParking(id:Int!): Int
       
-      rec_saveUser(id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
-      rec_updateUser(oldid: Int!,id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
-      rec_deleteUser(id: Int!): Int
-      rec_saveParkinglot(id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
-      rec_updateParkinglot(oldid: Int!,id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
-      rec_deleteParkinglot(id: Int!): Int
-      rec_saveNearParkinglot(id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
-      rec_updateNearParkinglot(oldid: Int!,id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
-      rec_deleteNearParkinglot(id: Int!): Int
+    rec_saveUser(id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
+    rec_updateUser(oldid: Int!,id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
+    rec_deleteUser(id: Int!): Int
+    rec_saveParkinglot(id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
+    rec_updateParkinglot(oldid: Int!,id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
+    rec_deleteParkinglot(id: Int!): Int
+    rec_saveNearParkinglot(id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
+    rec_updateNearParkinglot(oldid: Int!,id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
+    rec_deleteNearParkinglot(id: Int!): Int
 
-      clu_postUser(user: UserInput!): User!
-      clu_deleteUser(userId: String!): User!
-      clu_updateUser(user: UserInput!): User!
-      clu_deleteAllUsers: String
+    clu_postUser(user: UserInput!): User!
+    clu_deleteUser(userId: String!): User!
+    clu_updateUser(user: UserInput!): User!
+    clu_deleteAllUsers: String
 
-      plu_postParkinglot(Parkinglot:ParkinglotsInput!): Parkinglots
-      plu_updateParkinglot(id:Int!, Parkinglot:ParkinglotsInput!): Parkinglots
-      plu_deleteParkinglot(id:Int!): Int
-      plu_postParkinglotuser(parkinglotuser:ParkinglotuserInput!): Parkinglotuser
-      plu_updateParkinglotuser(id:Int!, parkinglotuser:ParkinglotuserInput!): Parkinglotuser
-      plu_deleteParkinglotuser(id:Int!): Int
+    plu_postParkinglot(Parkinglot:ParkinglotsInput!): Parkinglots
+    plu_updateParkinglot(id:Int!, Parkinglot:ParkinglotsInput!): Parkinglots
+    plu_deleteParkinglot(id:Int!): Int
+    plu_postParkinglotuser(parkinglotuser:ParkinglotuserInput!): Parkinglotuser
+    plu_updateParkinglotuser(id:Int!, parkinglotuser:ParkinglotuserInput!): Parkinglotuser
+    plu_deleteParkinglotuser(id:Int!): Int
 
   }
 
