@@ -54,6 +54,8 @@ exports.schema = buildSchema(`
       totalSpaces: Int!
       usedSpaces: Int!
       openHours: [OpenHours]!
+      image: String
+      idLocation: Int
   }
   input ParkingInput {
       id: ID
@@ -62,6 +64,8 @@ exports.schema = buildSchema(`
       totalSpaces: Int!
       usedSpaces: Int!
       openHours: [OpenHoursInput]!
+      image: String
+      idLocation: Int
   }
   type OpenHours {
       opening: String
@@ -180,7 +184,7 @@ exports.schema = buildSchema(`
     rev_updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
       
     par_createNewParking(parking:ParkingInput!): Parking
-    par_updateParking(id:Int!,parking:ParkingInput!): Int
+    par_updateParking(id:Int!,parking:ParkingInput!): Parking
     par_deleteParking(id:Int!): Int
       
     rec_saveUser(id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation

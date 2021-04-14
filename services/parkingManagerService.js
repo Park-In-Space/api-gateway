@@ -1,10 +1,15 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://18.206.127.10:8080/`
+const url = `http://54.159.53.227:8080/`
 const axios = require('axios')
+var location = require('./locationService');
 
 async function makeCreateNewParking(parking) {
+    if( parking.parking.idLocation !== null ){
+        var parkingLocation = await location.getById({ id:parking.parking.idLocation } );
+        if( parkingLocation === null ) return null;
+    }
     let res = await axios.post(`${url}parking`, parking.parking);    
     let data = res.data;
     return data;    
@@ -13,7 +18,6 @@ async function makeCreateNewParking(parking) {
 async function makeGetParkingById(id){
     let res = await axios.get(`${url}parking/${id.id}`);
     let data = res.data
-    console.log(data)
     return data
 }
 
@@ -24,15 +28,24 @@ async function makeGetParkings(){
 }
 
 async function makeDeleteParking(id){
+    let parking = await makeGetParkingById( id );
+    if( parking.idLocation !== null ){
+        location.deleteLocation( { id: parking.idLocation } );
+    }
     let res = await axios.delete(`${url}parking/${id.id}`);
     return res.status;
 }
 
-async function makeUpdateParking(id,parking){
-    let data = parking.parking
-    delete data.id;
-    let res = await axios.put(`${url}parking/${id.id}`,data)
-    return res.data.message
+async function makeUpdateParking( data ){
+    if( data.parking.idLocation !== null ){
+        var parkingLocation = await location.getById({ id:data.parking.idLocation } );
+        if( parkingLocation === null ) return null;
+    }
+    let id = data.id;
+    let parking = data.parking
+    delete parking.id;
+    let res = await axios.put(`${url}parking/${id}`,parking)
+    return res.data
 }
 
 exports.createNewParking = (parking) =>{
@@ -51,7 +64,7 @@ exports.deleteParking =(id)=>{
     return makeDeleteParking(id)
 }
 
-exports.updateParking =(id,parking)=>{
-    return makeUpdateParking(id,parking)
+exports.updateParking =(data)=>{
+    return makeUpdateParking(data)
 }
 
