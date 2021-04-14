@@ -1,10 +1,13 @@
 var { buildSchema } = require('graphql');
-const { getParkingById, getParkings } = require('./routers/parkingManagerService');
-var reviews = require('./routers/reviewServices');
-var parkingManager = require('./routers/parkingManagerService');
-var recommendationManager = require('./routers/recommendationService')
-var locations = require('./routers/locationService');
-var usersAuth = require('./routers/authenticationServices');
+const { getParkingById, getParkings } = require('./services/parkingManagerService');
+var reviews = require('./services/reviewServices');
+var parkingManager = require('./services/parkingManagerService');
+var recommendationManager = require('./services/recommendationService')
+var locations = require('./services/locationService');
+var usersAuth = require('./services/authenticationServices');
+var users = require('./services/userServices');
+var parkinglots = require('./services/plu-parkinglotsService');
+var parkinglotsusers = require('./services/plu-parkinglotuserService');
 
 exports.schema = buildSchema(`
 
@@ -12,20 +15,19 @@ exports.schema = buildSchema(`
     id : Int
     latitude: Float!
     longitude: Float!
-  
   }
 
-  type User {
+
+  type User_auth {
     email: String!
     Password: String!
     token: String!
     user_id: String!
   }
-
   type signUpOutput {
     InsertedID: String    
-
   }
+
 
   type Review {
     idreview: Int!
@@ -35,7 +37,6 @@ exports.schema = buildSchema(`
     review_calification: Int!
     review_comment: String    
   }
- 
   input ReviewInput {
     idreview: Int
     parking_id: Int
@@ -45,6 +46,7 @@ exports.schema = buildSchema(`
     review_comment: String    
   }
 
+
   type Parking {
       id: ID!
       name: String!
@@ -53,7 +55,6 @@ exports.schema = buildSchema(`
       usedSpaces: Int!
       openHours: [OpenHours]!
   }
-
   input ParkingInput {
       id: ID
       name: String!
@@ -62,16 +63,15 @@ exports.schema = buildSchema(`
       usedSpaces: Int!
       openHours: [OpenHoursInput]!
   }
-
   type OpenHours {
       opening: String
       closing: String
   }
-
   input OpenHoursInput {
       opening: String
       closing: String
   }
+
 
   type User_recommendation {
       id: ID
@@ -79,14 +79,12 @@ exports.schema = buildSchema(`
       destination: String!
       rangeOfSearch: Int
   }
-
   input User_recommendationInput {
       id: ID
       location: String!
       destination: String!
       rangeOfSearch: Int!
   }
-
   type Parkinglot_recommendation {
       id: ID
       rating: Int!
@@ -103,92 +101,177 @@ exports.schema = buildSchema(`
       parking_lot: Int!
   }
 
+
+  type User {
+    userId: String!
+    name: String!
+    email: String!
+    age: Int!
+    phoneNumber: Int!
+  }
+  input UserInput {
+    userId: String!
+    name: String!
+    email: String!
+    age: Int!
+    phoneNumber: Int!
+  }
+
+
+  type Parkinglotuser {
+    id: Int!
+    username: String
+    email: String
+    name: String
+    phone: String
+  }
+  input ParkinglotuserInput {
+    username: String
+    email: String
+    name: String
+    phone: String 
+  }
+  type Parkinglots {
+    id: Int!
+    parkinglotuser: Parkinglotuser
+    parkingid: Int!
+  }
+  input ParkinglotsInput {
+    parkinglotuser: ParkinglotuserInput 
+    parkingid: Int!
+  }
+
+
   type Query {
-    location(id: Int!): Location
-    review(idreview: Int!): Review
-    getParkings: [Parking]!
-    getParkingById(id: Int!): Parking
-    getUser(id:Int!): User_recommendation
-    getUsers: [User_recommendation]!
-    getParkinglot(id:Int!): Parkinglot_recommendation
-    getParkinglots: [Parkinglot_recommendation]!
-    getNearParkinglot(id:Int!): NearParkinglot_recommendation
-    getNearParkinglots: [NearParkinglot_recommendation]!
+    loc_location(id: Int!): Location
+
+    rev_review(idreview: Int!): Review
+
+    par_getParkings: [Parking]!
+    par_getParkingById(id: Int!): Parking
+
+    rec_getUser(id:Int!): User_recommendation
+    rec_getUsers: [User_recommendation]!
+    rec_getParkinglot(id:Int!): Parkinglot_recommendation
+    rec_getParkinglots: [Parkinglot_recommendation]!
+    rec_getNearParkinglot(id:Int!): NearParkinglot_recommendation
+    rec_getNearParkinglots: [NearParkinglot_recommendation]!
+
+    clu_getAllUsers: [User]!
+    clu_userById(userId: String!): User!
+
+    plu_getAllParkinglot:[Parkinglots]
+    plu_getByIdParkinglot(id:Int!):Parkinglots
+    plu_getAllParkinglotuser:[Parkinglotuser]
+    plu_getByIdParkinglotuser(id:Int!):Parkinglotuser
   }
 
   type Mutation {
 
-      createLocation( latitude: Float!,longitude: Float!): Location
-      deleteLocation( id: Int!): Int
-      updateLocation( id: Int! ,latitude: Float!,longitude: Float!): Location
+    loc_createLocation( latitude: Float!,longitude: Float!): Location
+    loc_deleteLocation( id: Int!): Int
+    loc_updateLocation( id: Int! ,latitude: Float!,longitude: Float!): Location
 
-      signUp(email: String!, password: String!, ): signUpOutput
-      login(email: String!, password: String!): User
+    ath_signUp(email: String!, password: String!, ): signUpOutput
+    ath_login(email: String!, password: String!): User_auth
 
-      createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
-      deleteReview(idreview: Int!): Int
-      updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
-      createNewParking(parking:ParkingInput!): Parking
-      updateParking(id:Int!,parking:ParkingInput!): Int
-      deleteParking(id:Int!): Int
-      saveUser(id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
-      updateUser(oldid: Int!,id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
-      deleteUser(id: Int!): Int
-      saveParkinglot(id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
-      updateParkinglot(oldid: Int!,id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
-      deleteParkinglot(id: Int!): Int
-      saveNearParkinglot(id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
-      updateNearParkinglot(oldid: Int!,id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
-      deleteNearParkinglot(id: Int!): Int
+    rev_createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
+    rev_deleteReview(idreview: Int!): Int
+    rev_updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
+      
+    par_createNewParking(parking:ParkingInput!): Parking
+    par_updateParking(id:Int!,parking:ParkingInput!): Int
+    par_deleteParking(id:Int!): Int
+      
+      rec_saveUser(id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
+      rec_updateUser(oldid: Int!,id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
+      rec_deleteUser(id: Int!): Int
+      rec_saveParkinglot(id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
+      rec_updateParkinglot(oldid: Int!,id: ID, rating: Int!,location: String!, pricePerMinute: Int!,timeOpen: String!,timeClose: String!): Parkinglot_recommendation
+      rec_deleteParkinglot(id: Int!): Int
+      rec_saveNearParkinglot(id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
+      rec_updateNearParkinglot(oldid: Int!,id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
+      rec_deleteNearParkinglot(id: Int!): Int
+
+      clu_postUser(user: UserInput!): User!
+      clu_deleteUser(userId: String!): User!
+      clu_updateUser(user: UserInput!): User!
+      clu_deleteAllUsers: String
+
+      plu_postParkinglot(Parkinglot:ParkinglotsInput!): Parkinglots
+      plu_updateParkinglot(id:Int!, Parkinglot:ParkinglotsInput!): Parkinglots
+      plu_deleteParkinglot(id:Int!): Int
+      plu_postParkinglotuser(parkinglotuser:ParkinglotuserInput!): Parkinglotuser
+      plu_updateParkinglotuser(id:Int!, parkinglotuser:ParkinglotuserInput!): Parkinglotuser
+      plu_deleteParkinglotuser(id:Int!): Int
+
   }
 
   
 `);
- 
+
 
 exports.root = {
 
   //locations
-  location: locations.getById,
-  createLocation: locations.postLocation,
-  deleteLocation: locations.deleteLocation,
-  updateLocation: locations.updateLocation,
-  
+  loc_location: locations.getById,
+  loc_createLocation: locations.postLocation,
+  loc_deleteLocation: locations.deleteLocation,
+  loc_updateLocation: locations.updateLocation,
+
   //Authentication Service
-  signUp: usersAuth.signUp,
-  login: usersAuth.login,
+  ath_signUp: usersAuth.signUp,
+  ath_login: usersAuth.login,
 
   //reviews
-  review: reviews.getById,
-  createReview: reviews.postReview,
-  deleteReview: reviews.deleteReview,
-  updateReview: reviews.updateReview,
+  rev_review: reviews.getById,
+  rev_createReview: reviews.postReview,
+  rev_deleteReview: reviews.deleteReview,
+  rev_updateReview: reviews.updateReview,
   // Parking Manager
-  getParkings: parkingManager.getParkings,
-  createNewParking: parkingManager.createNewParking,
-  updateParking: parkingManager.updateParking,
-  deleteParking: parkingManager.deleteParking,
-  getParkingById: parkingManager.getParkingById,
+  par_getParkings: parkingManager.getParkings,
+  par_createNewParking: parkingManager.createNewParking,
+  par_updateParking: parkingManager.updateParking,
+  par_deleteParking: parkingManager.deleteParking,
+  par_getParkingById: parkingManager.getParkingById,
   //Recommendation Manager:Users
-  saveUser: recommendationManager.saveUser,
-  getUser: recommendationManager.getUser,
-  getUsers: recommendationManager.getUsers,
-  updateUser: recommendationManager.updateUser,
-  deleteUser: recommendationManager.deleteUser,
+  rec_saveUser: recommendationManager.saveUser,
+  rec_getUser: recommendationManager.getUser,
+  rec_getUsers: recommendationManager.getUsers,
+  rec_updateUser: recommendationManager.updateUser,
+  rec_deleteUser: recommendationManager.deleteUser,
   //Recommendation Manager: Parking lots
-  saveParkinglot: recommendationManager.saveParkinglot,
-  getParkinglot: recommendationManager.getParkinglot,
-  getParkinglots: recommendationManager.getParkinglots,
-  updateParkinglot: recommendationManager.updateParkinglot,
-  deleteParkinglot: recommendationManager.deleteParkinglot,
+  rec_saveParkinglot: recommendationManager.saveParkinglot,
+  rec_getParkinglot: recommendationManager.getParkinglot,
+  rec_getParkinglots: recommendationManager.getParkinglots,
+  rec_updateParkinglot: recommendationManager.updateParkinglot,
+  rec_deleteParkinglot: recommendationManager.deleteParkinglot,
   //Recommendation Manager: Near Parking lots
-  saveNearParkinglot: recommendationManager.saveNearParkinglot,
-  getNearParkinglot: recommendationManager.getNearParkinglot,
-  getNearParkinglots: recommendationManager.getNearParkinglots,
-  updateNearParkinglot: recommendationManager.updateNearParkinglot,
-  deleteNearParkinglot: recommendationManager.deleteNearParkinglot,
-  
+  rec_saveNearParkinglot: recommendationManager.saveNearParkinglot,
+  rec_getNearParkinglot: recommendationManager.getNearParkinglot,
+  rec_getNearParkinglots: recommendationManager.getNearParkinglots,
+  rec_updateNearParkinglot: recommendationManager.updateNearParkinglot,
+  rec_deleteNearParkinglot: recommendationManager.deleteNearParkinglot,
+
+  //Client user manager
+  clu_userById: users.getById,
+  clu_postUser: users.postUser,
+  clu_deleteUser: users.deleteUser,
+  clu_updateUser: users.updateUser,
+  clu_getAllUsers: users.getAllUsers,
+  clu_deleteAllUsers: users.deleteAllUsers,
+
+  //Parking lot user manager
+  plu_getAllParkinglot: parkinglots.getAllParkinglot,
+  plu_getByIdParkinglot: parkinglots.getByIdParkinglot,
+  plu_postParkinglot: parkinglots.postParkinglot,
+  plu_deleteParkinglot: parkinglots.deleteParkinglot,
+  plu_updateParkinglot: parkinglots.updateParkinglot,
+  plu_getAllParkinglotuser: parkinglotsusers.getAllParkinglotuser,
+  plu_getByIdParkinglotuser: parkinglotsusers.getByIdParkinglotuser,
+  plu_postParkinglotuser: parkinglotsusers.postParkinglotuser,
+  plu_deleteParkinglotuser: parkinglotsusers.deleteParkinglotuser,
+  plu_updateParkinglotuser: parkinglotsusers.updateParkinglotuser,
+
 };
 
-//createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):ReviewInput
-  
