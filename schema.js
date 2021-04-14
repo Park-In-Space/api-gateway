@@ -11,6 +11,18 @@ exports.schema = buildSchema(`
     id : Int
     latitude: Float!
     longitude: Float!
+
+  type User {
+    email: String!
+    Password: String!
+    token: String!
+    user_id: String!
+      
+  }
+
+  type signUpOutput {
+    InsertedID: String    
+
   }
 
   type Review {
@@ -103,9 +115,14 @@ exports.schema = buildSchema(`
   }
 
   type Mutation {
+
       createLocation( latitude: Float!,longitude: Float!): Location
       deleteLocation( id: Int!): Int
       updateLocation( id: Int! ,latitude: Float!,longitude: Float!): Location
+
+      signUp(email: String!, password: String!, ): signUpOutput
+      login(email: String!, password: String!): User
+
       createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
       deleteReview(idreview: Int!): Int
       updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
@@ -128,12 +145,18 @@ exports.schema = buildSchema(`
  
 
 exports.root = {
+
   //locations
   location: locations.getById,
   createLocation: locations.postLocation,
   deleteLocation: locations.deleteLocation,
   updateLocation: locations.updateLocation,
   //reviews
+
+  //Authentication Service
+  signUp: users.signUp,
+  login: users.login,
+
   review: reviews.getById,
   createReview: reviews.postReview,
   deleteReview: reviews.deleteReview,
