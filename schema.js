@@ -6,6 +6,18 @@ var recommendationManager = require('./routers/recommendationService')
 
 exports.schema = buildSchema(`
 
+  type User {
+    email: String!
+    Password: String!
+    token: String!
+    user_id: String!
+      
+  }
+
+  type signUpOutput {
+    InsertedID: String    
+  }
+
   type Review {
     idreview: Int!
     parking_id: Int!
@@ -95,6 +107,8 @@ exports.schema = buildSchema(`
   }
 
   type Mutation {
+      signUp(email: String!, password: String!, ): signUpOutput
+      login(email: String!, password: String!): User
       createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
       deleteReview(idreview: Int!): Int
       updateReview(idreview: Int!, parking_id: Int, user_id: Int, review_date: String, review_calification: Int,review_comment: String):String
@@ -117,6 +131,9 @@ exports.schema = buildSchema(`
  
 
 exports.root = {
+  //Authentication Service
+  signUp: users.signUp,
+  login: users.login,
   review: reviews.getById,
   createReview: reviews.postReview,
   deleteReview: reviews.deleteReview,
