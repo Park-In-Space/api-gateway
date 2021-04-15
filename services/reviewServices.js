@@ -4,28 +4,19 @@ const { resolve } = require('path');
 const url = `http://3.135.244.105:3002/api/reviews/`
 const axios = require('axios')
 
-// exports.getById = (id) =>{
-//     return new Promise((resolve, reject)=>{
-//         http.get(`${url}${id.idreview}`,(res)=>{
-//             let data = ''
-//             res.on('data', (chunk) => {
-//                 data += chunk;
-//               });
-            
-//               res.on('close', () => {
-//                 console.log(data)
-//                 resolve(JSON.parse(data))
-//               });
-            
-//         })
-//     }) 
-// }
+
 
 async function makePostReview(review) {
     let res = await axios.post(url, review);    
     let data = res.data;
     //console.log(data)
     return data;    
+}
+
+async function makeGetAllReviews(){
+    let res = await axios.get(url);
+    let data = res.data
+    return data
 }
 
 async function makeGetReview(id){
@@ -52,6 +43,10 @@ exports.postReview = (review) =>{
 
 exports.getById = (id) =>{
     return makeGetReview(id)
+}
+
+exports.getAll = () =>{
+    return makeGetAllReviews()
 }
 
 exports.updateReview = (id,data) =>{
