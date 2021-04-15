@@ -24,6 +24,12 @@ async function makeGetReview(id){
     return data
 }
 
+async function makeGetAllReviews(){
+    let res = await axios.get(url);
+    let data = res.data
+    return data
+}
+
 async function makeDeleteReview(id){
     let res = await axios.delete(`${url}${id.idreview}`);
     return res.status;
@@ -48,6 +54,10 @@ exports.postReview = (review) =>{
 
 exports.getById = (id) =>{
     return makeGetReview(id)
+}
+
+exports.getAll = () =>{
+    return makeGetAllReviews()
 }
 
 exports.updateReview = (id,data) =>{

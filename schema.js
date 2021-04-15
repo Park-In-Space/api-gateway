@@ -38,7 +38,6 @@ exports.schema = buildSchema(`
     review_comment: String    
   }
   input ReviewInput {
-    idreview: Int
     parking_id: Int
     user_id: Int
     review_date: String
@@ -150,6 +149,7 @@ exports.schema = buildSchema(`
     loc_location(id: Int!): Location
 
     rev_review(idreview: Int!): Review
+    rev_getReviews: [Review]!
 
     par_getParkings: [Parking]!
     par_getParkingById(id: Int!): Parking
@@ -229,6 +229,7 @@ exports.root = {
 
   //reviews
   rev_review: reviews.getById,
+  rev_getReviews: reviews.getAll,
   rev_createReview: reviews.postReview,
   rev_deleteReview: reviews.deleteReview,
   rev_updateReview: reviews.updateReview,
