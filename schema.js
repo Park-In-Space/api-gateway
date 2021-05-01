@@ -55,6 +55,7 @@ exports.schema = buildSchema(`
       openHours: [OpenHours]!
       image: String
       idLocation: Int
+      address: String
   }
   input ParkingInput {
       id: ID
@@ -65,6 +66,7 @@ exports.schema = buildSchema(`
       openHours: [OpenHoursInput]!
       image: String
       idLocation: Int
+      address: String
   }
   type OpenHours {
       opening: String
@@ -73,6 +75,30 @@ exports.schema = buildSchema(`
   input OpenHoursInput {
       opening: String
       closing: String
+  }
+  type ParkingLoc {
+    id: ID!
+    name: String!
+    pricePerMinute: Int!
+    totalSpaces: Int!
+    usedSpaces: Int!
+    openHours: [OpenHours]!
+    image: String
+    latitude: Float!
+    longitude: Float!
+    address: String
+  }
+  input ParkingInputLoc {
+    id: ID
+    name: String!
+    pricePerMinute: Int!
+    totalSpaces: Int!
+    usedSpaces: Int!
+    openHours: [OpenHoursInput]!
+    image: String
+    latitude: Float!
+    longitude: Float!
+    address: String
   }
 
 
@@ -123,12 +149,15 @@ exports.schema = buildSchema(`
 
   type Parkinglotuser {
     id: Int!
+    userid: String
     username: String
     email: String
     name: String
     phone: String
   }
   input ParkinglotuserInput {
+    id: Int
+    userid: String
     username: String
     email: String
     name: String
@@ -186,6 +215,8 @@ exports.schema = buildSchema(`
     par_createNewParking(parking:ParkingInput!): Parking
     par_updateParking(id:Int!,parking:ParkingInput!): Parking
     par_deleteParking(id:Int!): Int
+    par_createNewParkingLoc(parking:ParkingInputLoc!): ParkingLoc
+
       
     rec_saveUser(id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
     rec_updateUser(oldid: Int!,id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
