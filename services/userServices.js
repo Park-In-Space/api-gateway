@@ -4,12 +4,22 @@ const { resolve } = require('path');
 const url = `http://3.208.48.16:3001/api/users`
 const urlcreate = `http://3.208.48.16:3001/api/users/createUser`
 const axios = require('axios')
-
+var authentication = require('./authenticationServices');
 
 async function makePostCreateUser(user) {
-    let res = await axios.post(`${urlcreate}`, user.user);    
+    var authUser = {
+        email: user.user.email,
+        password: user.user.password
+    }
+    var auth = await authentication.signUp(authUser)
+
+    delete user.user.password;
+    user.user.userId = auth.InsertedID;
+
+    let res = await axios.post(`${urlcreate}`, user.user);
+ 
     let data = res.data;
-    //console.log(data)
+
     return data;    
 }
 

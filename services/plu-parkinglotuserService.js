@@ -1,8 +1,9 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://54.237.6.191:8080/api/parkinglotuser/`
+const url = `http://34.229.55.242:8080/api/parkinglotuser/`
 const axios = require('axios')
+var authentication = require('./authenticationServices');
 
 async function makeGetParkinglotuserALL(){
     let res = await axios.get(`${url}`);
@@ -12,9 +13,20 @@ async function makeGetParkinglotuserALL(){
 }
 
 async function makePostParkinglotuser(user) {
+
+    var authUser = {
+        email: user.parkinglotuser.email,
+        password: user.parkinglotuser.password
+    }
+    
+    var auth = await authentication.signUp(authUser)
+    
+    delete user.parkinglotuser.password;
+    user.parkinglotuser.userId = auth.InsertedID;
+    
     let res = await axios.post(url, user.parkinglotuser);    
     let data = res.data;
-    //console.log(data)
+    
     return data;    
 }
 

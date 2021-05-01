@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://54.237.6.191:8080/api/parkinglots/`
+const url = `http://34.229.55.242:8080/api/parkinglots/`
 const axios = require('axios')
 
 async function makeGetParkinglotALL(){

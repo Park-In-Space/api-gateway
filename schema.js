@@ -145,11 +145,27 @@ exports.schema = buildSchema(`
     age: Int!
     phoneNumber: Int!
   }
+  type UserClienAuth {
+    
+    name: String!
+    email: String!
+    password: String!
+    age: Int!
+    phoneNumber: Int!
+  }
+  input UserClienAuthInput {
+    
+    name: String!
+    email: String!
+    password: String!
+    age: Int!
+    phoneNumber: Int!
+  }
 
 
   type Parkinglotuser {
     id: Int!
-    userid: String
+    userId: String
     username: String
     email: String
     name: String
@@ -157,7 +173,7 @@ exports.schema = buildSchema(`
   }
   input ParkinglotuserInput {
     id: Int
-    userid: String
+    userId: String
     username: String
     email: String
     name: String
@@ -171,6 +187,24 @@ exports.schema = buildSchema(`
   input ParkinglotsInput {
     parkinglotuser: ParkinglotuserInput 
     parkingid: Int!
+  }
+  type ParkinglotuserAuth {
+    id: Int
+    userId: String
+    username: String
+    email: String
+    password: String!
+    name: String
+    phone: String
+  }
+  input ParkinglotuserAuthInput {
+    id: Int
+    userId: String
+    username: String
+    email: String
+    password: String!
+    name: String
+    phone: String
   }
 
 
@@ -228,7 +262,7 @@ exports.schema = buildSchema(`
     rec_updateNearParkinglot(oldid: Int!,id: ID, recommended: Boolean!,distance_to_destination: Int!,user: Int!,parking_lot: Int!): NearParkinglot_recommendation
     rec_deleteNearParkinglot(id: Int!): Int
 
-    clu_postUser(user: UserInput!): User!
+    clu_postUser(user: UserClienAuthInput!): User!
     clu_deleteUser(userId: String!): User!
     clu_updateUser(user: UserInput!): User!
     clu_deleteAllUsers: String
@@ -236,7 +270,7 @@ exports.schema = buildSchema(`
     plu_postParkinglot(Parkinglot:ParkinglotsInput!): Parkinglots
     plu_updateParkinglot(id:Int!, Parkinglot:ParkinglotsInput!): Parkinglots
     plu_deleteParkinglot(id:Int!): Int
-    plu_postParkinglotuser(parkinglotuser:ParkinglotuserInput!): Parkinglotuser
+    plu_postParkinglotuser(parkinglotuser:ParkinglotuserAuthInput!): Parkinglotuser
     plu_updateParkinglotuser(id:Int!, parkinglotuser:ParkinglotuserInput!): Parkinglotuser
     plu_deleteParkinglotuser(id:Int!): Int
 
