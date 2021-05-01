@@ -215,7 +215,7 @@ exports.schema = buildSchema(`
     par_createNewParking(parking:ParkingInput!): Parking
     par_updateParking(id:Int!,parking:ParkingInput!): Parking
     par_deleteParking(id:Int!): Int
-    par_createNewParkingLoc(parking:ParkingInputLoc!): ParkingLoc
+    par_createNewParkingLoc(parking:ParkingInputLoc!): Parking
 
       
     rec_saveUser(id: ID, location: String!, destination: String!, rangeOfSearch: Int!): User_recommendation
@@ -270,6 +270,7 @@ exports.root = {
   par_updateParking: parkingManager.updateParking,
   par_deleteParking: parkingManager.deleteParking,
   par_getParkingById: parkingManager.getParkingById,
+  par_createNewParkingLoc: parkingManager.createNewParkingLoc,
   //Recommendation Manager:Users
   rec_saveUser: recommendationManager.saveUser,
   rec_getUser: recommendationManager.getUser,
