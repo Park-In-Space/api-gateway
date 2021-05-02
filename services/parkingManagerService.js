@@ -47,6 +47,38 @@ async function makeGetParkings() {
     return data
 }
 
+async function setData(data,idx,rawResponse) {
+    let obj = {
+        id: 0,
+        name: "",
+        address: "",
+        location: {
+            longitude:0.0,
+            latitude:0.0
+        }
+    }
+    const loc = rawResponse.data[idx].idLocation;
+    var parkingLocation = await location.getById({ id: loc });
+    obj.id = rawResponse.data[idx].id;
+    obj.name = rawResponse.data[idx].name;
+    obj.address = rawResponse.data[idx].address;
+    obj.location.longitude = parkingLocation.longitude;
+    obj.location.latitude = parkingLocation.latitude;
+    data[idx] = obj;
+}
+
+async function makeGetParkingsLocation() {
+    let res = await axios.get(`${url}parkings`);
+    let data = new Array(res.data.length+1);
+    
+    for (let i = 0; i <res.data.length; i++) {
+        
+        await setData(data,i,res);
+    }
+
+    return data
+}
+
 async function makeDeleteParking(id) {
     let parking = await makeGetParkingById(id);
     if (parking.idLocation !== null) {
@@ -78,6 +110,9 @@ exports.createNewParkingLoc = (parking) => {
 
 exports.getParkingById = (id) => {
     return makeGetParkingById(id)
+}
+exports.getParkingsLocation = () => {
+    return makeGetParkingsLocation()
 }
 
 exports.getParkings = () => {

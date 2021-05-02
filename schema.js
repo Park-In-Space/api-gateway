@@ -17,6 +17,11 @@ exports.schema = buildSchema(`
     longitude: Float!
   }
 
+  type SimpleLocation{
+    latitude: Float!
+    longitude: Float!
+  }
+
 
   type User_auth {
     email: String!
@@ -99,6 +104,13 @@ exports.schema = buildSchema(`
     latitude: Float!
     longitude: Float!
     address: String
+  }
+
+  type ParkingWLocation {
+    id: ID!
+    name: String!
+    address: String
+    location: SimpleLocation
   }
 
 
@@ -208,6 +220,7 @@ exports.schema = buildSchema(`
   }
 
 
+
   type Query {
     loc_location(id: Int!): Location
 
@@ -216,6 +229,7 @@ exports.schema = buildSchema(`
 
     par_getParkings: [Parking]!
     par_getParkingById(id: Int!): Parking
+    par_getParkingsLocation: [ParkingWLocation]!
 
     rec_getUser(id:Int!): User_recommendation
     rec_getUsers: [User_recommendation]!
@@ -305,6 +319,7 @@ exports.root = {
   par_deleteParking: parkingManager.deleteParking,
   par_getParkingById: parkingManager.getParkingById,
   par_createNewParkingLoc: parkingManager.createNewParkingLoc,
+  par_getParkingsLocation: parkingManager.getParkingsLocation,
   //Recommendation Manager:Users
   rec_saveUser: recommendationManager.saveUser,
   rec_getUser: recommendationManager.getUser,
