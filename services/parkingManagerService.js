@@ -69,7 +69,7 @@ async function setData(data,idx,rawResponse) {
 
 async function makeGetParkingsLocation() {
     let res = await axios.get(`${url}parkings`);
-    let data = new Array(res.data.length+1);
+    let data = new Array(res.data.length);
     
     for (let i = 0; i <res.data.length; i++) {
         
