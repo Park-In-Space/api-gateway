@@ -64,6 +64,7 @@ async function makeGetParkingByIdLoc(id) {
     delete data.idLocation;
     return data
 }
+
 async function makeGetParkings() {
     let res = await axios.get(`${url}parkings`);
     let data = res.data
@@ -100,6 +101,25 @@ async function makeGetParkingsLocation() {
     }
 
     return data
+}
+
+async function makeGetParkingByIdPluLoc(idplu) {
+
+    let plures = await plupl.getAllParkinglot();
+    let parkingids = [];
+    for (let i = 0; i < plures.length; i++){
+        if(plures[i].parkinglotuser.id===idplu.id){
+            parkingids.push(plures[i].parkingid)
+        }
+    }
+    let parkings = await makeGetParkingsLocation();
+    let parkingsret = [];
+    for (let i = 0; i < parkings.length; i++) {
+        if(parkingids.includes(parkings[i].id)){
+            parkingsret.push(parkings[i])
+        }
+    }
+    return parkingsret
 }
 
 async function deletePluPL(id) {
@@ -153,6 +173,10 @@ exports.getParkingByIdLoc = (id) => {
     return makeGetParkingByIdLoc(id)
 }
 
+exports.getParkingByIdPluLoc = (id) => {
+    return makeGetParkingByIdPluLoc(id)
+}
+
 exports.getParkingsLocation = () => {
     return makeGetParkingsLocation()
 }
@@ -168,4 +192,5 @@ exports.deleteParking = (id) => {
 exports.updateParking = (data) => {
     return makeUpdateParking(data)
 }
+
 

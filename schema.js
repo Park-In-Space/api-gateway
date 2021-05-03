@@ -242,6 +242,7 @@ exports.schema = buildSchema(`
     par_getParkingById(id: Int!): Parking
     par_getParkingsLocation: [ParkingWLocation]!
     par_getParkingByIdLoc(id: Int!): ParkingWLocationAll
+    par_getParkingByIdPluLoc(id: Int!):[ParkingWLocation]!
 
     rec_getUser(id:Int!): User_recommendation
     rec_getUsers: [User_recommendation]!
@@ -333,6 +334,7 @@ exports.root = {
   par_createNewParkingLoc: parkingManager.createNewParkingLoc,
   par_getParkingsLocation: parkingManager.getParkingsLocation,
   par_getParkingByIdLoc: parkingManager.getParkingByIdLoc,
+  par_getParkingByIdPluLoc: parkingManager.getParkingByIdPluLoc, 
   //Recommendation Manager:Users
   rec_saveUser: recommendationManager.saveUser,
   rec_getUser: recommendationManager.getUser,
