@@ -32,7 +32,11 @@ exports.schema = buildSchema(`
   type signUpOutput {
     InsertedID: String    
   }
-
+  type User_authWA {
+    id: String!
+    email: String!
+    owner: Boolean!
+  }
 
   type Review {
     idreview: Int!
@@ -268,6 +272,7 @@ exports.schema = buildSchema(`
 
     ath_signUp(email: String!, password: String!, ): signUpOutput
     ath_login(email: String!, password: String!): User_auth
+    ath_loginWA(email: String!, password: String!): User_authWA
 
     rev_createReview(idreview: Int!, parking_id: Int!, user_id: Int!, review_date: String!, review_calification: Int!,review_comment: String):Review
     rev_deleteReview(idreview: Int!): Int
@@ -318,6 +323,7 @@ exports.root = {
   //Authentication Service
   ath_signUp: usersAuth.signUp,
   ath_login: usersAuth.login,
+  ath_loginWA: usersAuth.loginWA,
 
   //reviews
   rev_review: reviews.getById,
