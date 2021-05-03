@@ -95,6 +95,7 @@ exports.schema = buildSchema(`
   }
   input ParkingInputLoc {
     id: ID
+    idplu: Int!
     name: String!
     pricePerMinute: Int!
     totalSpaces: Int!
