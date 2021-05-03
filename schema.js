@@ -106,10 +106,20 @@ exports.schema = buildSchema(`
     longitude: Float!
     address: String
   }
-
   type ParkingWLocation {
     id: ID!
     name: String!
+    address: String
+    location: SimpleLocation
+  }
+  type ParkingWLocationAll {
+    id: ID!
+    name: String!
+    pricePerMinute: Int!
+    totalSpaces: Int!
+    usedSpaces: Int!
+    openHours: [OpenHours]!
+    image: String
     address: String
     location: SimpleLocation
   }
@@ -231,6 +241,7 @@ exports.schema = buildSchema(`
     par_getParkings: [Parking]!
     par_getParkingById(id: Int!): Parking
     par_getParkingsLocation: [ParkingWLocation]!
+    par_getParkingByIdLoc(id: Int!): ParkingWLocationAll
 
     rec_getUser(id:Int!): User_recommendation
     rec_getUsers: [User_recommendation]!
@@ -321,6 +332,7 @@ exports.root = {
   par_getParkingById: parkingManager.getParkingById,
   par_createNewParkingLoc: parkingManager.createNewParkingLoc,
   par_getParkingsLocation: parkingManager.getParkingsLocation,
+  par_getParkingByIdLoc: parkingManager.getParkingByIdLoc,
   //Recommendation Manager:Users
   rec_saveUser: recommendationManager.saveUser,
   rec_getUser: recommendationManager.getUser,
