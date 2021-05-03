@@ -59,7 +59,7 @@ async function makeGetParkingByIdLoc(id) {
     
     var parkingLocation = await location.getById({ id: loc });
     
-    var locobj = {latitude: parkingLocation.longitude,longitude:parkingLocation.latitude}
+    var locobj = {latitude: parkingLocation.latitude,longitude:parkingLocation.longitude}
     data.location = locobj
     delete data.idLocation;
     return data
