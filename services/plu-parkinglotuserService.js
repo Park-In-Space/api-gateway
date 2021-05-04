@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://34.229.55.242:8080/api/parkinglotuser/`
+const url = `http://54.227.102.209:8080/api/parkinglotuser/`
 const axios = require('axios')
 var authentication = require('./authenticationServices');
 
