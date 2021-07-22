@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http = require('http');
 const { resolve } = require('path');
-const url = `http://107.21.166.120:8080/`
+const url = `http://40.71.122.70:8080/`
 const axios = require('axios')
 var location = require('./locationService');
 var plu = require('./plu-parkinglotuserService');
