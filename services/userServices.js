@@ -7,12 +7,14 @@ const axios = require('axios')
 var authentication = require('./authenticationServices');
 
 async function makePostCreateUser(user) {
+    
     var authUser = {
         email: user.user.email,
         password: user.user.password
     }
-    var auth = await authentication.signUp(authUser)
 
+    
+    var auth = await authentication.signUp(authUser)
     delete user.user.password;
     user.user.userId = auth.InsertedID;
 

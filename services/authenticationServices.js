@@ -1,10 +1,12 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = ` http://18.224.180.52:8080/users/`
+const url = ` http://18.119.11.224:8080/users/`
 const axios = require('axios')
 var plu = require('./plu-parkinglotuserService');
 var clu = require('./userServices');
+var ldapService = require('./ldapService');
+const Promise = require('bluebird')
 
 async function makeSignUpPost(user) {
     let res = await axios.post(`${url}signup`, user);    
@@ -16,8 +18,32 @@ async function makeSignUpPost(user) {
 async function makeLogInPost(user) {
     let res = await axios.post(`${url}login`, user);    
     let data = res.data;
-    //console.log(data)
-    return data;    
+
+
+
+    var ldap= await ldapService.authenticateDN(user.email,user.password,'parkingUser');
+    if (ldap){
+        return data
+    }
+    else{
+        return false
+    }
+
+    //var authLdap= await ldapService.authenticateDN(user.email,user.password,'parkingUser');
+    //console.log(authLdap)
+    
+    /*
+    var isOwner= await makeLogInPostWA(user)
+    if (isOwner.owner == true){
+        console.log(user.password)
+        ldapService.authenticateDN(user.email,user.password,'parkingUser')
+    }
+    else{
+        console.log(user.password)
+        ldapService.authenticateDN(user.email,user.password,'users')
+    }
+    */
+  
 }
 
 async function makeLogInPostWA(user) {
