@@ -1,8 +1,8 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://3.208.48.16:3001/api/users`
-const urlcreate = `http://3.208.48.16:3001/api/users/createUser`
+const url = `http://pks-clientusermanagement-lb.parkinspace.143.244.176.224.nip.io/api/users`
+const urlcreate = `http://pks-clientusermanagement-lb.parkinspace.143.244.176.224.nip.io/api/users/createUser`
 const axios = require('axios')
 var authentication = require('./authenticationServices');
 

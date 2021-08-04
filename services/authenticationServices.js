@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = ` http://18.119.11.224:8080/users/`
+const url = ` http://pks-auth-lb.parkinspace.143.244.176.224.nip.io/users/`
 const axios = require('axios')
 var plu = require('./plu-parkinglotuserService');
 var clu = require('./userServices');

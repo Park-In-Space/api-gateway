@@ -2,7 +2,7 @@ const axios = require('axios')
 const http  = require('http');
 const { resolve } = require('path');
 //base url for the service
-const recommendation_url = `http://3.91.253.2:8000/recommendation/`
+const recommendation_url = `http://pks-recommendation-lb.parkinspace.143.244.176.224.nip.io/`
 
 //Post a User
 async function saveUser(user) {
