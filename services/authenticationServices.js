@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = ` http://10.88.14.140:8080/users/`
+const url = ` http://18.119.11.224:8080/users/`
 const axios = require('axios')
 var plu = require('./plu-parkinglotuserService');
 var clu = require('./userServices');
@@ -20,11 +20,12 @@ async function makeLogInPost(user) {
     let data = res.data;
 
 
-    var ldap= await ldapService.authenticateDN(user.email,user.password,'users');
+    var ldap= await ldapService.authenticateDN(user.email,user.password);
     if (ldap){
         return data
     }
     else{
+        console.log("puta")
         return false
     }
 

@@ -16,12 +16,13 @@ const options = {
 }
 
 
-function makeAuthenticateDN(username, password, group) {
+function makeAuthenticateDN(username, password) {
     return new Promise((resolve, reject) => {
-        options['searchBase']= `ou=${group},dc=parkinspace,dc=com`
+        options['searchBase']= `ou=users,dc=parkinspace,dc=com`
         client = new LdapAuth(options)
         client.authenticate(username, password, function (err) {
           if (err){
+              console.log(err)
               resolve(false)
           }else{
                 resolve(true)
@@ -107,6 +108,6 @@ exports.addUser = (user) =>{
     return makeAddParkingUser(user)
  }
 
- exports.authenticateDN = (user,password,group) =>{
-    return makeAuthenticateDN(user,password,group)
+ exports.authenticateDN = (user,password) =>{
+    return makeAuthenticateDN(user,password)
  }
