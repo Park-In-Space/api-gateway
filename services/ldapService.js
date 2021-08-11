@@ -32,32 +32,7 @@ function makeAuthenticateDN(username, password, group) {
 
 
 
-/*
-makeAuthenticateDN(username, password, group ) {
-    bind use for authentication
-    
-    options['searchBase']= `ou=${group},dc=parkinspace,dc=com`
-    console.log(options)
-    client = new LdapAuth(options)
-    console.log(password)
-    authenticated = false
-    client.authenticate(username, password, function (err) {
-        if (err) {
-            console.log("Error in new connetion " + err)
-        } else {
-            /*if connection is success then go for any operation
-            console.log("Success"); 
-            authenticated=true  
-            return 
 
-        }
-    });
-
-    return authenticated
-    
-}
-
-*/
 
 
 async function makeAddUser(user) {
