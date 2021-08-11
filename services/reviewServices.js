@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://pks-reviews-lb.parkinspace.143.244.176.224.nip.io/`
+const url = `http://10.88.15.194/`
 const axios = require('axios')
 var users = require('./userServices');
 var parking = require('./parkingManagerService');

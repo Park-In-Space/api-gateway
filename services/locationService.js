@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://pks-location-lb.parkinspace.143.244.176.224.nip.io/locations`
+const url = `http://10.88.6.112:3000/locations`
 const axios = require('axios')
 
 async function makePostLocation(location) {

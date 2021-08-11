@@ -1,7 +1,7 @@
 const { rejects } = require('assert');
 const http  = require('http');
 const { resolve } = require('path');
-const url = `http://pks-plu-lb.parkinspace.143.244.176.224.nip.io/`
+const url = `http://10.88.3.165:8080/api/parkinglots/`
 const axios = require('axios')
 
 async function makeGetParkinglotALL(){
