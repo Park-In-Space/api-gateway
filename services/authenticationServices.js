@@ -20,7 +20,7 @@ async function makeLogInPost(user) {
     let data = res.data;
 
 
-    var ldap= await ldapService.authenticateDN(user.email,user.password,'user');
+    var ldap= await ldapService.authenticateDN(user.email,user.password,'users');
     if (ldap){
         return data
     }
