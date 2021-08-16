@@ -25,7 +25,7 @@ async function makeLogInPost(user) {
         return data
     }
     else{
-        console.log("puta")
+        console.log("Fallo LDAP")
         return false
     }
 
@@ -53,6 +53,13 @@ async function makeLogInPostWA(user) {
     if(data === null){
         return null;
     }
+
+    var ldap= await ldapService.authenticateDN(user.email,user.password);
+    if (!ldap){
+        console.log("Fallo LDAP")
+        return false
+    }
+
     let ret ={id:"",email:user.email,owner:false};
     let pluUsers = await plu.getAllParkinglotuser();
     
